@@ -6,5 +6,6 @@ const api = axios.create({
 });
 
 const getPosts = () => api.get("/posts");
+const deletePosts = (id) => api.delete(`/posts/${id}`);
 
-export { getPosts };
+export { getPosts, deletePosts };
