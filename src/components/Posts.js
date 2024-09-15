@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import { deletePosts, getPosts } from "../services/postService";
+import { deletePosts, getPosts, updatePost } from "../services/postService";
 import PostForm from "./PostForm";
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
+  const [editingPost, setEditingPost] = useState(null);
 
   useEffect(() => {
     // console.log("Load Posts"); - To check whether the effect is working perfect or not
@@ -33,16 +34,26 @@ export default function Posts() {
       .catch((err) => console.error(err));
   };
 
+  const startEditing = (post) => {
+    setEditingPost(post);
+  };
+
   return (
     <>
       <div>
         <h1> What Posts do we have ? </h1>
-        <PostForm posts={posts} setPosts={setPosts} />
+        <PostForm
+          posts={posts}
+          setPosts={setPosts}
+          editingPost={editingPost}
+          setEditingPost={setEditingPost}
+        />
         <ul>
           {posts.map((p) => (
             <li key={p.id}>
               <h2>{p.title}</h2>
               <p> {p.body}</p>
+              <button onClick={() => startEditing(p)}> Edit </button>
               <button onClick={() => handleDelete(p.id)}>
                 Delete the Post{" "}
               </button>
